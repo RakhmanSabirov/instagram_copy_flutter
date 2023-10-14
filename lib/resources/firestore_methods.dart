@@ -59,7 +59,7 @@ class FireStoreMethods{
     return res;
   }
 
-  Future<void> postComment(String postId,String text, String uid,String name,String profilePic) async{
+  Future<void> postComment(String postId,String text, String uid,String name,String profilePic,List commentLikes) async{
 
     try{
       if(text.isNotEmpty){
@@ -71,6 +71,7 @@ class FireStoreMethods{
           'text' : text,
           'commentId': commentId,
           'datePublished' : DateTime.now(),
+          'commentLikes' : [],
         });
       } else{
         print("Text is empty");
@@ -78,6 +79,26 @@ class FireStoreMethods{
     }catch(e){
       print(e.toString());
     }
+  }
+  Future<String> likeComments(String postId,String commentId, String uid, List commentLikes) async {
+    String res = "Some error occurred";
+    try {
+      if (commentLikes.contains(uid)) {
+        // if the likes list contains the user uid, we need to remove it
+        _firestore.collection('posts').doc(postId).collection('comments').doc(commentId).update({
+          'commentLikes': FieldValue.arrayRemove([uid])
+        });
+      } else {
+        // else we need to add uid to the likes array
+        _firestore.collection('posts').doc(postId).collection('comments').doc(commentId).update({
+          'commentLikes': FieldValue.arrayUnion([uid])
+        });
+      }
+      res = 'success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
   }
 
   Future<void> deletePost(String postId) async{
