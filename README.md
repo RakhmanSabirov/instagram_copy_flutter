@@ -1,6 +1,13 @@
 # instagram_flutter
 
-A new Flutter project.
+Unrealized copy of instagram with some similarity
+
+Sign in Page
+
+Sign Up page
+
+![image](https://github.com/RakhmanSabirov/instagram_copy_flutter/assets/140696861/f3a56b57-c6d1-4311-9412-27d52cea0829)
+
 
 ## Getting Started
 
